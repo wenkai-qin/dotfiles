@@ -1,3 +1,24 @@
+# Interactive guard. Only run for interactive shells.
+[[ $- != *i* ]] && return
+
+# Startup timing/profiling toggles (simple true/false)
+# Flip these to "true" to enable. Defaults are safe and add no overhead.
+: ${ZSH_TIME_ENABLED:=false}
+: ${ZSH_PROFILE_ENABLED:=false}
+
+# Legacy env var overrides (optional):
+# If ZSH_TIME or ZSH_PROFILE are set in the environment, treat them as enabling flags.
+if [[ -n "$ZSH_TIME" ]]; then ZSH_TIME_ENABLED=true; fi
+if [[ -n "$ZSH_PROFILE" ]]; then ZSH_PROFILE_ENABLED=true; fi
+
+if [[ "$ZSH_TIME_ENABLED" == "true" ]]; then
+    zmodload zsh/datetime 2>/dev/null || true
+    __ZSHRC_START_EPOCH=${EPOCHREALTIME:-0}
+fi
+if [[ "$ZSH_PROFILE_ENABLED" == "true" ]]; then
+    zmodload zsh/zprof 2>/dev/null || true
+fi
+
 # De-duplicate fpath. Just in case!
 typeset -U fpath 
 if command -v brew &>/dev/null; then
@@ -11,7 +32,7 @@ mkdir -p "$ZSH_CACHE_DIR"
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "$ZSH_CACHE_DIR"
 
-# Enhanced UI
+# Zsh tab-completion.
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format '%F{yellow}%d%f'
@@ -22,11 +43,24 @@ setopt noautomenu
 autoload -Uz compinit
 
 zcompdump="${ZSH_CACHE_DIR}/zcompdump"
-if [[ -s "$zcompdump" ]]; then
-    compinit -d "$zcompdump"
-else
-    compinit -C -d "$zcompdump"
-fi
+__init_comp() {
+    if [[ -s "$zcompdump" ]]; then
+        compinit -d "$zcompdump"
+    else
+        compinit -C -d "$zcompdump"
+    fi
+    
+  # After first run, restore normal completion.
+  bindkey '^I' complete-word
+
+  # Clean up loader.
+  zle -D __init_comp
+  unfunction __init_comp
+}
+
+# Make Tab (^I) trigger the loader.
+zle -N __init_comp __init_comp
+bindkey '^I' __init_comp
 
 # Enable fzf key bindings and completions if available.
 fzf_source_file="$HOME/.fzf.zsh"
@@ -140,3 +174,24 @@ sync-history() {
     builtin fc -AI
 }
 add-zsh-hook precmd sync-history
+
+# Print timing and/or profiling summary if enabled
+if [[ "$ZSH_TIME_ENABLED" == "true" || "$ZSH_PROFILE_ENABLED" == "true" ]]; then
+    () {
+        # Run in a subshell to avoid leaking locals
+        if [[ "$ZSH_TIME_ENABLED" == "true" ]]; then
+            zmodload zsh/datetime 2>/dev/null || true
+            local __end=${EPOCHREALTIME:-0}
+            local __start=${__ZSHRC_START_EPOCH:-0}
+            # Use zsh's floating point to compute ms
+            local -F 8 __delta=$__end
+            __delta=$(( __delta - __start ))
+            local -F 3 __ms=$(( __delta * 1000 ))
+            print -P "%F{yellow}zsh init time:%f ${__ms} ms"
+        fi
+        if [[ "$ZSH_PROFILE_ENABLED" == "true" ]]; then
+            # Print zprof report (can be long)
+            command -v zprof &>/dev/null && zprof
+        fi
+    }
+fi
