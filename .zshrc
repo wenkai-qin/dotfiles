@@ -6,7 +6,6 @@
 : ${ZSH_TIME_ENABLED:=false}
 : ${ZSH_PROFILE_ENABLED:=false}
 
-# Legacy env var overrides (optional):
 # If ZSH_TIME or ZSH_PROFILE are set in the environment, treat them as enabling flags.
 if [[ -n "$ZSH_TIME" ]]; then ZSH_TIME_ENABLED=true; fi
 if [[ -n "$ZSH_PROFILE" ]]; then ZSH_PROFILE_ENABLED=true; fi
@@ -39,29 +38,6 @@ zstyle ':completion:*:descriptions' format '%F{yellow}%d%f'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*'
 # zstyle ':completion:*' menu yes select
 
-setopt noautomenu
-autoload -Uz compinit
-
-zcompdump="${ZSH_CACHE_DIR}/zcompdump"
-__init_comp() {
-    if [[ -s "$zcompdump" ]]; then
-        compinit -d "$zcompdump"
-    else
-        compinit -C -d "$zcompdump"
-    fi
-    
-  # After first run, restore normal completion.
-  bindkey '^I' complete-word
-
-  # Clean up loader.
-  zle -D __init_comp
-  unfunction __init_comp
-}
-
-# Make Tab (^I) trigger the loader.
-zle -N __init_comp __init_comp
-bindkey '^I' __init_comp
-
 # Enable fzf key bindings and completions if available.
 fzf_source_file="$HOME/.fzf.zsh"
 
@@ -89,6 +65,30 @@ if command -v fzf &>/dev/null; then
         source "$fzf_source_file"
     fi
 fi
+
+# Save original tab widget (must be after any possible modifications to the original widget).
+typeset -g __ORIG_TAB_WIDGET
+__ORIG_TAB_WIDGET="$(bindkey | awk '$1=="\"^I\""{print $2; exit}')"
+
+setopt noautomenu
+autoload -Uz compinit
+
+zcompdump="${ZSH_CACHE_DIR}/zcompdump"
+__init_comp() {
+    if [[ -s "$zcompdump" ]]; then
+        compinit -d "$zcompdump"
+    else
+        compinit -C -d "$zcompdump"
+    fi
+        
+    # Clean up loader.
+    bindkey '^I' "$__ORIG_TAB_WIDGET"
+    zle "$__ORIG_TAB_WIDGET"
+}
+
+# Make Tab (^I) trigger the lazy-loader.
+zle -N __init_comp __init_comp
+bindkey '^I' __init_comp
 
 # Additional arguments for common commands.
 alias grep='grep --color=auto'
