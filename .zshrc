@@ -149,8 +149,8 @@ setopt EXTENDED_HISTORY
 setopt HIST_REDUCE_BLANKS
 setopt SHARE_HISTORY
 
-# Misellaneous paths.
-export SL_AWS=s3://ssa-external-upload-mini-gnss-production
+# Enable shell integration.
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
 
 # Fix Ctrl+Arrow and Alt+Arrow keys in zsh
 autoload -Uz select-word-style
@@ -168,14 +168,14 @@ bindkey "^[[1;3C" forward-word      # Alt+Right
 
 bindkey -e
 
-# Sync history across sessions safely
+# Sync history across sessions safely.
 autoload -Uz add-zsh-hook
 sync-history() {
     builtin fc -AI
 }
 add-zsh-hook precmd sync-history
 
-# Print timing and/or profiling summary if enabled
+# Print timing and/or profiling summary if enabled.
 if [[ "$ZSH_TIME_ENABLED" == "true" || "$ZSH_PROFILE_ENABLED" == "true" ]]; then
     () {
         # Run in a subshell to avoid leaking locals
