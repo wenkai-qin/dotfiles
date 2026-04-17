@@ -3,7 +3,7 @@ set -e
 
 echo "⚠️  Starting dotfiles uninstall..."
 
-# Determine platform
+# Determine platform.
 OS_TYPE="$(uname -s)"
 if [ -f /etc/redhat-release ]; then
     platform=redhat
@@ -22,7 +22,7 @@ FILES_TO_LINK=(
   ".gitconfig"
 )
 
-# Remove dotfile symlinks and restore backups
+# Remove dotfile symlinks and restore backups.
 echo "🧹 Removing dotfile symlinks..."
 for filename in "${FILES_TO_LINK[@]}"; do
   target="$HOME/$filename"
@@ -31,14 +31,14 @@ for filename in "${FILES_TO_LINK[@]}"; do
     rm "$target"
 
     if ls "$target".bak.* &>/dev/null; then
-      latest_backup=$(ls "$target".bak.* | sort | tail -n 1)
+      latest_backup="$(find "$HOME" -maxdepth 1 -name "$(basename "$target").bak.*" -print | sort | tail -n 1)"
       echo "🔁 Restoring backup: $latest_backup → $target"
       mv "$latest_backup" "$target"
     fi
   fi
 done
 
-# Remove Zsh plugins
+# Remove zsh plugins.
 echo "🧹 Removing Zsh plugins..."
 PLUGIN_NAMES=("zsh-syntax-highlighting" "zsh-autosuggestions" "pure")
 
@@ -60,6 +60,12 @@ else
   echo "✅ Removed manually installed Zsh plugins"
 fi
 
+# Remove zsh cache.
+if [[ -d "$HOME/.zsh/cache" ]]; then
+  rm -rf "$HOME/.zsh/cache"
+  echo "✅ Removed Zsh cache"
+fi
+
 # Remove fzf
 echo "🧹 Removing fzf..."
 if [[ "$platform" == "mac" ]]; then
@@ -68,7 +74,7 @@ if [[ "$platform" == "mac" ]]; then
     echo "✅ fzf removed (via Homebrew)"
   fi
 else
-  rm -rf ~/.fzf
+  rm -rf "$HOME/.fzf"
   echo "✅ fzf removed (manually cloned)"
 fi
 

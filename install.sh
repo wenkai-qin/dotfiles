@@ -40,12 +40,15 @@ install_packages() {
   if [[ "$platform" == "linux" ]]; then
     PKG_MGR="apt"
     INSTALL_CMD="sudo apt install -y"
+    CHECK_CMD="dpkg -s"
+    REQUIRED_PKGS=(git tree zsh curl)
     sudo apt update
 
   elif [[ "$platform" == "redhat" ]]; then
-
     PKG_MGR=$(command -v dnf &>/dev/null && echo "dnf" || echo "yum")
     INSTALL_CMD="sudo $PKG_MGR install -y"
+    CHECK_CMD="rpm -q"
+    REQUIRED_PKGS=(git tree zsh curl)
     sudo $PKG_MGR -y makecache
 
   elif [[ "$platform" == "mac" ]]; then
@@ -56,10 +59,20 @@ install_packages() {
     fi
     PKG_MGR="brew"
     INSTALL_CMD="brew install"
+    CHECK_CMD="brew list"
   fi
 
+  # If running inside VMware, install guest tools.
+  if [[ "$platform" == "linux" || "$platform" == "redhat" ]]; then
+    if systemd-detect-virt 2>/dev/null | grep -qi vmware; then
+      echo "🖥️  VMware VM detected; adding VMware guest tools..."
+      REQUIRED_PKGS+=(open-vm-tools open-vm-tools-desktop)
+    fi
+  fi
+
+  # Go through and install.
   for pkg in "${REQUIRED_PKGS[@]}"; do
-    if command -v "$pkg" &>/dev/null; then
+    if $CHECK_CMD "$pkg" &>/dev/null; then
       echo "✅ $pkg already installed"
     else
       echo "📦 Installing $pkg..."
@@ -67,6 +80,12 @@ install_packages() {
     fi
   done
 
+  if [[ "$platform" == "linux" || "$platform" == "redhat" ]]; then
+    if systemd-detect-virt 2>/dev/null | grep -qi vmware; then
+      sudo systemctl enable open-vm-tools || true
+      sudo systemctl restart open-vm-tools || true
+    fi
+  fi
 }
 
 # Install fzf
