@@ -22,6 +22,8 @@ FILES_TO_LINK=(
   ".zshrc"
   ".gitignore_global"
   ".gitconfig"
+  ".claude/settings.json"
+  ".claude/statusline-command.sh"
 )
 
 # Backup an existing file.
@@ -192,6 +194,9 @@ for filename in "${FILES_TO_LINK[@]}"; do
   if [ -e "$target" ] || [ -L "$target" ]; then
     backup_file "$target"
   fi
+
+  # Entries may be nested (e.g. .claude/settings.json); ln needs the parent to exist.
+  mkdir -p "$(dirname "$target")"
 
   ln -sf "$source" "$target"
   echo "🔗 Linked $target → $source"

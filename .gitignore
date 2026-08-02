@@ -1,0 +1,13 @@
+# ~/.gitignore_global ignores `.claude/` in every repo. This repo is the one
+# exception: it *is* the backup for Claude Code's user-level config. Repo-level
+# rules take precedence over core.excludesFile, so the negation below works here
+# without changing behavior anywhere else.
+#
+# Re-include the directory so git will descend into it, re-ignore its contents,
+# then allowlist only the files that are safe to publish. Anything Claude Code
+# drops in .claude/ later (credentials, history, transcripts, caches) stays
+# ignored by default -- add new entries here deliberately, one at a time.
+!.claude/
+.claude/*
+!.claude/settings.json
+!.claude/statusline-command.sh

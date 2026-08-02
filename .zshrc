@@ -18,8 +18,9 @@ if [[ "$ZSH_PROFILE_ENABLED" == "true" ]]; then
     zmodload zsh/zprof 2>/dev/null || true
 fi
 
-# De-duplicate fpath. Just in case!
-typeset -U fpath 
+# De-duplicate fpath and path. Just in case!
+typeset -U fpath
+typeset -U path PATH
 if command -v brew &>/dev/null; then
   fpath+=("$(brew --prefix)/share/zsh/site-functions")
 fi
@@ -195,3 +196,4 @@ if [[ "$ZSH_TIME_ENABLED" == "true" || "$ZSH_PROFILE_ENABLED" == "true" ]]; then
         fi
     }
 fi
+export PATH="$HOME/.local/bin:$PATH"
