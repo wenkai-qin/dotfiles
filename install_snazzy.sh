@@ -118,10 +118,20 @@ Linux)
     fi
 
     echo "🎨 Installing Snazzy via Gogh..."
-    (
-        sleep 5
-        echo "291"
-    ) | bash -c "$(wget -qO- https://git.io/vQgMr)"
+    # Select by name, not by menu index. This used to pipe "291" into Gogh's
+    # interactive prompt, but the theme list is ordered and upstream additions
+    # shift it -- 291 is now Slate, and Snazzy has moved to 293. Gogh accepts a
+    # theme name/slug as an argument, which also skips the interactive prompt.
+    #
+    # $0 must be a placeholder: `bash -c CMD name arg` assigns name to $0.
+    # TERMINAL is set explicitly because Gogh otherwise walks the process tree
+    # with ps to guess it, which is unreliable under `bash -c`; the enclosing
+    # branch has already confirmed a GNOME session.
+    GOGH_URL="https://raw.githubusercontent.com/Mayccoll/Gogh/master/gogh.sh"
+    if ! TERMINAL=gnome-terminal bash -c "$(wget -qO- "$GOGH_URL")" gogh snazzy; then
+        echo "❌ Gogh failed to install the Snazzy theme."
+        exit 1
+    fi
     sleep 1
 
     PROFILE_LIST=$(gsettings get org.gnome.Terminal.ProfilesList list | tr -d "[],'")

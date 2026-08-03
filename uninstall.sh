@@ -16,10 +16,14 @@ else
 fi
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Keep in sync with FILES_TO_LINK in install.sh -- anything linked there but
+# missing here is left behind by an uninstall.
 FILES_TO_LINK=(
   ".zshrc"
   ".gitignore_global"
   ".gitconfig"
+  ".claude/settings.json"
+  ".claude/statusline-command.sh"
 )
 
 # Remove dotfile symlinks and restore backups.

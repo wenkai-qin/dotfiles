@@ -18,6 +18,7 @@ fi
 # Set up dotfiles directory
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Keep in sync with FILES_TO_LINK in uninstall.sh.
 FILES_TO_LINK=(
   ".zshrc"
   ".gitignore_global"
@@ -26,10 +27,12 @@ FILES_TO_LINK=(
   ".claude/statusline-command.sh"
 )
 
-# Backup an existing file.
+# Backup an existing file, symlink, or directory.
+# Must match the -e test at the call site: if a target exists but isn't backed
+# up here, `ln -sf` silently drops the link *inside* it when it's a directory.
 backup_file() {
   local file="$1"
-  if [ -f "$file" ] || [ -L "$file" ]; then
+  if [ -e "$file" ] || [ -L "$file" ]; then
     mv "$file" "${file}.bak.$(date +%s)"
     echo "🔁 Backed up existing $file"
   fi
@@ -116,7 +119,12 @@ install_fzf() {
     echo "   • Customize window title:"
     echo "     Terminal → Preferences → Profile → Window → Title: Working Directory"
     echo "   • You may also want to disable the audible bell in Terminal → Settings → Advanced"
-    read -n 1 -r -s -p $'Press any key once you’ve reviewed these suggestions...\n'
+    # Only pause when there's a terminal to pause for. Under `set -e` a read
+    # with no TTY (curl | bash, CI, provisioning) returns non-zero and would
+    # kill the script here -- after packages, before any symlinks.
+    if [ -t 0 ]; then
+      read -n 1 -r -s -p $'Press any key once you’ve reviewed these suggestions...\n'
+    fi
     echo ""
 
   elif [[ "$platform" == "linux" || "$platform" == "redhat" ]]; then
