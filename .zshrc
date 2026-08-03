@@ -76,10 +76,20 @@ autoload -Uz compinit
 
 zcompdump="${ZSH_CACHE_DIR}/zcompdump"
 __init_comp() {
-    if [[ -s "$zcompdump" ]]; then
-        compinit -d "$zcompdump"
-    else
+    # -C reads the dump as-is, skipping both the rebuild check and compaudit.
+    # That's the fast path, but it never notices completions installed since the
+    # dump was written -- so fall back to a full rebuild once the dump is over a
+    # day old. (Nmh-24) = exists, modified less than 24h ago; plain glob
+    # qualifiers like this need no extendedglob.
+    local -a _fresh_dump=( ${zcompdump}(Nmh-24) )
+    if (( $#_fresh_dump )); then
         compinit -C -d "$zcompdump"
+    else
+        compinit -d "$zcompdump"
+        # compinit only rewrites the dump when its contents actually changed,
+        # so touch it unconditionally -- otherwise a dump that stays valid keeps
+        # its old mtime and every later shell repeats this slow branch.
+        touch "$zcompdump" 2>/dev/null
     fi
         
     # Clean up loader.

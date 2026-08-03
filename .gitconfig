@@ -12,7 +12,5 @@
 	ff = only
 [include]
 	path = ~/.gitconfig.local
-[diff]
-	ignoreWhitespace = true
-[ini]
+[init]
 	defaultBranch = master
