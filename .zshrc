@@ -154,14 +154,18 @@ fi
 export HISTFILE=~/.zsh_history
 export HISTSIZE=50000
 export SAVEHIST=50000
-setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt EXTENDED_HISTORY
 setopt HIST_REDUCE_BLANKS
+# SHARE_HISTORY already implies INC_APPEND_HISTORY and imports new entries from
+# other shells, so neither that option nor a precmd `fc -AI` adds anything.
 setopt SHARE_HISTORY
 
-# Enable shell integration.
-[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+# Enable shell integration. Guarded: without `code` on PATH the command
+# substitution is empty and `.` errors on every shell start.
+if [[ "$TERM_PROGRAM" == "vscode" ]] && command -v code &>/dev/null; then
+    . "$(code --locate-shell-integration-path zsh)"
+fi
 
 # Fix Ctrl+Arrow and Alt+Arrow keys in zsh
 autoload -Uz select-word-style
@@ -178,13 +182,6 @@ bindkey "^[[1;3D" backward-word     # Alt+Left
 bindkey "^[[1;3C" forward-word      # Alt+Right
 
 bindkey -e
-
-# Sync history across sessions safely.
-autoload -Uz add-zsh-hook
-sync-history() {
-    builtin fc -AI
-}
-add-zsh-hook precmd sync-history
 
 # Print timing and/or profiling summary if enabled.
 if [[ "$ZSH_TIME_ENABLED" == "true" || "$ZSH_PROFILE_ENABLED" == "true" ]]; then

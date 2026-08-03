@@ -11,3 +11,7 @@
 .claude/*
 !.claude/settings.json
 !.claude/statusline-command.sh
+
+# Same story: ~/.gitignore_global ignores CLAUDE.md everywhere, and this repo is
+# the exception -- the guidance belongs with the code it describes.
+!CLAUDE.md

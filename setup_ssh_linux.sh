@@ -41,32 +41,66 @@ else
     echo "[!] UFW is not installed. Skipping firewall configuration."
 fi
 
-# Optional hardening
 HARDEN=${1:-false}
-if [ "$HARDEN" = "true" ]; then
-    echo "[+] Hardening SSH configuration..."
-    sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
-    sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
-    sudo systemctl reload ssh
-    echo "[✓] SSH hardened: root login disabled, password auth disabled."
+PUBKEY_PATH="${2:-}"
+USER_HOME=$(eval echo "~$USER")
+AUTH_KEYS="$USER_HOME/.ssh/authorized_keys"
+
+# Key setup runs BEFORE hardening, and its inputs are validated before anything
+# touches sshd. Hardening disables password auth, so a failure between the two
+# would leave a remote host with no usable way in.
+if [ -n "$PUBKEY_PATH" ] && [ ! -f "$PUBKEY_PATH" ]; then
+    echo "[x] Public key file not found: $PUBKEY_PATH"
+    echo "[x] Aborting before any sshd changes."
+    exit 1
 fi
 
 # Optional SSH key setup
-if [ -n "$2" ]; then
-    PUBKEY_PATH="$2"
+if [ -n "$PUBKEY_PATH" ]; then
     echo "[+] Setting up SSH key authentication..."
-    if [ ! -f "$PUBKEY_PATH" ]; then
-        echo "[x] Public key file not found: $PUBKEY_PATH"
+    mkdir -p "$USER_HOME/.ssh"
+    cat "$PUBKEY_PATH" >> "$AUTH_KEYS"
+    chmod 700 "$USER_HOME/.ssh"
+    chmod 600 "$AUTH_KEYS"
+    chown -R "$USER":"$USER" "$USER_HOME/.ssh"
+    echo "[✓] SSH key added for user $USER"
+fi
+
+# Optional hardening
+if [ "$HARDEN" = "true" ]; then
+    # Refuse to disable password auth with no key to fall back on -- that
+    # combination is unrecoverable on a remote machine.
+    if [ ! -s "$AUTH_KEYS" ]; then
+        echo "[x] Refusing to harden: $AUTH_KEYS is missing or empty."
+        echo "[x] Pass a public key as the second argument, e.g.:"
+        echo "    $0 true ~/.ssh/id_ed25519.pub"
         exit 1
     fi
 
-    USER_HOME=$(eval echo "~$USER")
-    mkdir -p "$USER_HOME/.ssh"
-    cat "$PUBKEY_PATH" >> "$USER_HOME/.ssh/authorized_keys"
-    chmod 700 "$USER_HOME/.ssh"
-    chmod 600 "$USER_HOME/.ssh/authorized_keys"
-    chown -R "$USER":"$USER" "$USER_HOME/.ssh"
-    echo "[✓] SSH key added for user $USER"
+    echo "[+] Hardening SSH configuration..."
+    sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+    sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+    # Ubuntu 22.10+ ships /etc/ssh/sshd_config.d/*.conf, and cloud images drop
+    # 50-cloud-init.conf with "PasswordAuthentication yes". sshd takes the FIRST
+    # value it sees, so an Include can silently override the edits above.
+    OVERRIDES=$(grep -rilE '^\s*#?\s*(PasswordAuthentication|PermitRootLogin)' \
+        /etc/ssh/sshd_config.d/ 2>/dev/null || true)
+    if [ -n "$OVERRIDES" ]; then
+        echo "[!] These drop-in files also set PasswordAuthentication/PermitRootLogin"
+        echo "[!] and may take precedence over /etc/ssh/sshd_config:"
+        echo "$OVERRIDES" | sed 's/^/      /'
+        echo "[!] Edit them too, or the hardening below will not fully apply."
+    fi
+
+    sudo systemctl reload ssh
+
+    # Report what sshd actually resolved, not what we intended to set.
+    echo "[+] Effective sshd settings after reload:"
+    sudo sshd -T 2>/dev/null \
+        | grep -iE '^(passwordauthentication|permitrootlogin)' \
+        | sed 's/^/      /' \
+        || echo "      (could not run 'sshd -T' to verify)"
 fi
 
 echo "[✓] SSH setup complete."
