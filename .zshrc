@@ -181,7 +181,11 @@ bindkey "^[^[[C" forward-word       # Alt+Right
 bindkey "^[[1;3D" backward-word     # Alt+Left
 bindkey "^[[1;3C" forward-word      # Alt+Right
 
-bindkey -e
+# Above-arrow-keys keys.
+bindkey "^[[3~" delete-char
+bindkey "^[[4~" end-of-line
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[3;5~" kill-word
 
 # Print timing and/or profiling summary if enabled.
 if [[ "$ZSH_TIME_ENABLED" == "true" || "$ZSH_PROFILE_ENABLED" == "true" ]]; then
@@ -203,4 +207,6 @@ if [[ "$ZSH_TIME_ENABLED" == "true" || "$ZSH_PROFILE_ENABLED" == "true" ]]; then
         fi
     }
 fi
+
 export PATH="$HOME/.local/bin:$PATH"
+
