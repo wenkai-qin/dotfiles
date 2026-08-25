@@ -21,23 +21,20 @@ fi
 # De-duplicate fpath and path. Just in case!
 typeset -U fpath
 typeset -U path PATH
-if command -v brew &>/dev/null; then
-  fpath+=("$(brew --prefix)/share/zsh/site-functions")
-fi
+[[ -d /opt/homebrew/share/zsh/site-functions ]] &&
+  fpath+=(/opt/homebrew/share/zsh/site-functions)
 
 # Setup Zsh completion cache. Then, load compinit with cache support.
 ZSH_CACHE_DIR="$HOME/.zsh/cache"
-mkdir -p "$ZSH_CACHE_DIR"
+[[ -d "$ZSH_CACHE_DIR" ]] || mkdir -p "$ZSH_CACHE_DIR"
 
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "$ZSH_CACHE_DIR"
 
 # Zsh tab-completion.
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format '%F{yellow}%d%f'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*'
-# zstyle ':completion:*' menu yes select
 
 # Enable fzf key bindings and completions if available.
 fzf_source_file="$HOME/.fzf.zsh"
@@ -49,14 +46,6 @@ fi
 
 if command -v fzf &>/dev/null; then
 
-    # Detect fzf version -- too low, need above 0.48 for keybindings and
-    # completions.
-    fzf_version=$(fzf --version | awk '{print $1}')
-    min_version="0.48"
-    if [[ "$(printf '%s\n' "$fzf_version" "$min_version" | sort -V | head -n1)" != "$min_version" ]]; then
-        echo "⚠️  fzf version $fzf_version is less than $min_version - key bindings and completions may not be available."
-    fi
-
     # Detect no fzf source file found.
     if [[ ! -r "$fzf_source_file" ]]; then
         fzf_bin_path="$(command -v fzf)"
@@ -67,9 +56,8 @@ if command -v fzf &>/dev/null; then
     fi
 fi
 
-# Save original tab widget (must be after any possible modifications to the original widget).
 typeset -g __ORIG_TAB_WIDGET
-__ORIG_TAB_WIDGET="$(bindkey | awk '$1=="\"^I\""{print $2; exit}')"
+__ORIG_TAB_WIDGET="${${(s: :)"$(bindkey '^I')"}[2]:-expand-or-complete}"
 
 setopt noautomenu
 autoload -Uz compinit

@@ -1,13 +1,4 @@
 {
-  "effortLevel": "xhigh",
-  "tui": "fullscreen",
-  "theme": "dark",
-  "agentPushNotifEnabled": false,
-  "model": "opus",
-  "statusLine": {
-    "type": "command",
-    "command": "bash \"$HOME/.claude/statusline-command.sh\""
-  },
   "permissions": {
     "allow": [
       "Bash(latexmk *)",
@@ -50,5 +41,14 @@
       "Bash(pdfinfo *)",
       "Bash(pdftotext *)"
     ]
-  }
+  },
+  "model": "claude-fable-5[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "bash \"$HOME/.claude/statusline-command.sh\""
+  },
+  "effortLevel": "xhigh",
+  "tui": "fullscreen",
+  "theme": "dark",
+  "agentPushNotifEnabled": false
 }

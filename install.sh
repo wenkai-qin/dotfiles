@@ -21,6 +21,7 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Keep in sync with FILES_TO_LINK in uninstall.sh.
 FILES_TO_LINK=(
   ".zshrc"
+  ".zprofile"
   ".gitignore_global"
   ".gitconfig"
   ".claude/settings.json"
