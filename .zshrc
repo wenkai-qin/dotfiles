@@ -156,24 +156,28 @@ if [[ "$TERM_PROGRAM" == "vscode" ]] && command -v code &>/dev/null; then
 fi
 
 # Fix Ctrl+Arrow and Alt+Arrow keys in zsh
-autoload -Uz select-word-style
-select-word-style bash
+# WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+WORDCHARS='*?.[]~=&;!#$%^(){}<>'
 
 # Ctrl + Arrow
 bindkey "^[[1;5D" backward-word     # Ctrl+Left
 bindkey "^[[1;5C" forward-word      # Ctrl+Right
 
 # Alt + Arrow
-bindkey "^[^[[D" backward-word      # Alt+Left
-bindkey "^[^[[C" forward-word       # Alt+Right
+bindkey "^[^[[D"  backward-word     # Alt+Left
+bindkey "^[^[[C"  forward-word      # Alt+Right
 bindkey "^[[1;3D" backward-word     # Alt+Left
 bindkey "^[[1;3C" forward-word      # Alt+Right
 
 # Above-arrow-keys keys.
-bindkey "^[[3~" delete-char
-bindkey "^[[4~" end-of-line
-bindkey "^[[1~" beginning-of-line
-bindkey "^[[3;5~" kill-word
+bindkey "^[[3~"   delete-char           # Delete
+bindkey "^[[4~"   end-of-line           # End
+bindkey "^[[1~"   beginning-of-line     # Home
+bindkey "^[[3;5~" kill-word             # Ctrl+Delete
+bindkey "^[[3;3~" kill-word             # Alt+Delete
+
+# Backspace.
+bindkey '^H'      backward-kill-word    # Ctrl+Backspace
 
 # Print timing and/or profiling summary if enabled.
 if [[ "$ZSH_TIME_ENABLED" == "true" || "$ZSH_PROFILE_ENABLED" == "true" ]]; then
@@ -195,6 +199,3 @@ if [[ "$ZSH_TIME_ENABLED" == "true" || "$ZSH_PROFILE_ENABLED" == "true" ]]; then
         fi
     }
 fi
-
-export PATH="$HOME/.local/bin:$PATH"
-
