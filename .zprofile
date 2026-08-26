@@ -18,3 +18,5 @@ for __brew_prefix in ${HOMEBREW_PREFIX} /opt/homebrew /usr/local /home/linuxbrew
   break
 done
 unset __brew_prefix
+
+[[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
