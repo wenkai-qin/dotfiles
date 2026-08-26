@@ -22,6 +22,7 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FILES_TO_LINK=(
   ".zshrc"
   ".zprofile"
+  ".tmux.conf"
   ".gitignore_global"
   ".gitconfig"
   ".claude/settings.json"
