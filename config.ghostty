@@ -1,8 +1,10 @@
 # Aesthetics.
 theme = Snazzy
 
+mouse-hide-while-typing = true
+
 background-opacity = 0.82
-background-blur-radius = 20
+background-blur = 20
 
 window-padding-x = 10
 window-padding-y = 10
@@ -11,12 +13,13 @@ unfocused-split-opacity = 0.6
 split-divider-color = #3a3d4b
 
 # Font.
-font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 14
+# font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 13
+font-thicken = true
 
 # Window UI.
 resize-overlay = never
 macos-titlebar-style = tabs
 bell-features = no-title
 term = xterm-256color
-macos-icon=glass
+macos-icon = glass
