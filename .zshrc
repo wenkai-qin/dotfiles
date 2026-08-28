@@ -123,8 +123,12 @@ if [[ "$OSTYPE" == "linux"* ]] && [[ -d "$HOME/.zsh/pure" ]]; then
     fpath+=("$HOME/.zsh/pure")
 fi
 
+PURE_GIT_DOWN_ARROW='↓'
+PURE_GIT_UP_ARROW='↑'
+
 autoload -Uz promptinit; promptinit;
 zstyle :prompt:pure:git:stash show yes
+
 if type prompt_pure_setup &>/dev/null; then
   prompt pure
 fi
