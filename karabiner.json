@@ -6,323 +6,583 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "⌃⌥⇧ arrows to 🌐⌃⇧ on external keyboard",
+                        "description": "Lofree 2: F-row media, FN layer F-keys (match MacBook)",
                         "manipulators": [
                             {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+"conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            
+                            "from": {
+                                "key_code": "f1",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "key_code": "display_brightness_decrement" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f2",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "key_code": "display_brightness_increment" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f3",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "key_code": "mission_control" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f4",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "key_code": "spotlight" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f5",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "key_code": "dictation" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f7",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "consumer_key_code": "rewind" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f8",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "consumer_key_code": "play_or_pause" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f9",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "consumer_key_code": "fast_forward" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f10",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "consumer_key_code": "mute" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f11",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "consumer_key_code": "volume_decrement" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f12",
+                                "modifiers": { "optional": ["any"] }
+                            },
+                            "to": [{ "consumer_key_code": "volume_increment" }],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": { "consumer_key_code": "volume_increment" },
+                            "to": [
+                                {
+                                    "key_code": "f12",
+                                    "modifiers": ["fn"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": { "consumer_key_code": "volume_decrement" },
+                            "to": [
+                                {
+                                    "key_code": "f11",
+                                    "modifiers": ["fn"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": { "consumer_key_code": "mute" },
+                            "to": [
+                                {
+                                    "key_code": "f10",
+                                    "modifiers": ["fn"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": { "consumer_key_code": "rewind" },
+                            "to": [
+                                {
+                                    "key_code": "f7",
+                                    "modifiers": ["fn"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": { "consumer_key_code": "play_or_pause" },
+                            "to": [
+                                {
+                                    "key_code": "f8",
+                                    "modifiers": ["fn"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "type": "device_if",
+                                    "identifiers": [
+                                        { "vendor_id": 14477, "product_id": 2 },
+                                        { "device_address": "c0-07-43-99-fe-5a" }
+                                    ]
+                                }
+                            ],
+                            "from": { "consumer_key_code": "fast_forward" },
+                            "to": [
+                                {
+                                    "key_code": "f9",
+                                    "modifiers": ["fn"]
+                                }
+                            ],
+                            "type": "basic"
+                        }
+                    ]
+                },
+                {
+                    "description": "⌃⌥⇧ arrows to 🌐⌃⇧ on external keyboard",
+                    "manipulators": [
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "left_arrow",
+                                "modifiers": { "mandatory": ["control", "option", "shift"] }
+                            },
+                            "to": [
+                                {
                                     "key_code": "left_arrow",
-                                    "modifiers": { "mandatory": ["control", "option", "shift"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_arrow",
-                                        "modifiers": ["fn", "control", "shift"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control", "shift"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "right_arrow",
+                                "modifiers": { "mandatory": ["control", "option", "shift"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "right_arrow",
-                                    "modifiers": { "mandatory": ["control", "option", "shift"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow",
-                                        "modifiers": ["fn", "control", "shift"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control", "shift"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "up_arrow",
+                                "modifiers": { "mandatory": ["control", "option", "shift"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "up_arrow",
-                                    "modifiers": { "mandatory": ["control", "option", "shift"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "up_arrow",
-                                        "modifiers": ["fn", "control", "shift"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control", "shift"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "down_arrow",
+                                "modifiers": { "mandatory": ["control", "option", "shift"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "down_arrow",
-                                    "modifiers": { "mandatory": ["control", "option", "shift"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "down_arrow",
-                                        "modifiers": ["fn", "control", "shift"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "⌃⌥ arrows/F/C/R to 🌐⌃ on non-built-in keyboards",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                                    "modifiers": ["fn", "control", "shift"]
+                                }
+                            ],
+                            "type": "basic"
+                        }
+                    ]
+                },
+                {
+                    "description": "⌃⌥ arrows/F/C/R to 🌐⌃ on non-built-in keyboards",
+                    "manipulators": [
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "left_arrow",
+                                "modifiers": { "mandatory": ["control", "option"] }
+                            },
+                            "to": [
+                                {
                                     "key_code": "left_arrow",
-                                    "modifiers": { "mandatory": ["control", "option"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_arrow",
-                                        "modifiers": ["fn", "control"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "right_arrow",
+                                "modifiers": { "mandatory": ["control", "option"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "right_arrow",
-                                    "modifiers": { "mandatory": ["control", "option"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow",
-                                        "modifiers": ["fn", "control"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "up_arrow",
+                                "modifiers": { "mandatory": ["control", "option"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "up_arrow",
-                                    "modifiers": { "mandatory": ["control", "option"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "up_arrow",
-                                        "modifiers": ["fn", "control"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "down_arrow",
+                                "modifiers": { "mandatory": ["control", "option"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "down_arrow",
-                                    "modifiers": { "mandatory": ["control", "option"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "down_arrow",
-                                        "modifiers": ["fn", "control"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "f",
+                                "modifiers": { "mandatory": ["control", "option"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "f",
-                                    "modifiers": { "mandatory": ["control", "option"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "f",
-                                        "modifiers": ["fn", "control"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "c",
+                                "modifiers": { "mandatory": ["control", "option"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "c",
-                                    "modifiers": { "mandatory": ["control", "option"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "c",
-                                        "modifiers": ["fn", "control"]
-                                    }
-                                ],
-                                "type": "basic"
+                                    "modifiers": ["fn", "control"]
+                                }
+                            ],
+                            "type": "basic"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "identifiers": [{ "is_built_in_keyboard": true }],
+                                    "type": "device_unless"
+                                }
+                            ],
+                            "from": {
+                                "key_code": "r",
+                                "modifiers": { "mandatory": ["control", "option"] }
                             },
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "is_built_in_keyboard": true }],
-                                        "type": "device_unless"
-                                    }
-                                ],
-                                "from": {
+                            "to": [
+                                {
                                     "key_code": "r",
-                                    "modifiers": { "mandatory": ["control", "option"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "r",
-                                        "modifiers": ["fn", "control"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "devices": [
-                {
-                    "identifiers": { "is_keyboard": true },
-                    "ignore": true
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": true,
-                    "identifiers": {
-                        "device_address": "c0-06-43-99-fe-5a",
-                        "is_keyboard": true,
-                        "is_pointing_device": true
-                    },
-                    "ignore": false,
-                    "ignore_vendor_events": true,
-                    "manipulate_caps_lock_led": false,
-                    "fn_function_keys": [
-                        { "from": { "key_code": "f1" },  "to": [{ "key_code": "f1" }] },
-                        { "from": { "key_code": "f2" },  "to": [{ "key_code": "f2" }] },
-                        { "from": { "key_code": "f3" },  "to": [{ "key_code": "f3" }] },
-                        { "from": { "key_code": "f4" },  "to": [{ "key_code": "f4" }] },
-                        { "from": { "key_code": "f5" },  "to": [{ "key_code": "f5" }] },
-                        { "from": { "key_code": "f6" },  "to": [{ "key_code": "f6" }] },
-                        { "from": { "key_code": "f7" },  "to": [{ "key_code": "f7" }] },
-                        { "from": { "key_code": "f8" },  "to": [{ "key_code": "f8" }] },
-                        { "from": { "key_code": "f9" },  "to": [{ "key_code": "f9" }] },
-                        { "from": { "key_code": "f10" }, "to": [{ "key_code": "f10" }] },
-                        { "from": { "key_code": "f11" }, "to": [{ "key_code": "f11" }] },
-                        { "from": { "key_code": "f12" }, "to": [{ "key_code": "f12" }] }
+                                    "modifiers": ["fn", "control"]
+                                }
+                            ],
+                            "type": "basic"
+                        }
                     ]
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": true,
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "is_pointing_device": true,
-                        "product_id": 2,
-                        "vendor_id": 14477
-                    },
-                    "ignore": false,
-                    "fn_function_keys": [
-                        { "from": { "key_code": "f1" },  "to": [{ "key_code": "f1" }] },
-                        { "from": { "key_code": "f2" },  "to": [{ "key_code": "f2" }] },
-                        { "from": { "key_code": "f3" },  "to": [{ "key_code": "f3" }] },
-                        { "from": { "key_code": "f4" },  "to": [{ "key_code": "f4" }] },
-                        { "from": { "key_code": "f5" },  "to": [{ "key_code": "f5" }] },
-                        { "from": { "key_code": "f6" },  "to": [{ "key_code": "f6" }] },
-                        { "from": { "key_code": "f7" },  "to": [{ "key_code": "f7" }] },
-                        { "from": { "key_code": "f8" },  "to": [{ "key_code": "f8" }] },
-                        { "from": { "key_code": "f9" },  "to": [{ "key_code": "f9" }] },
-                        { "from": { "key_code": "f10" }, "to": [{ "key_code": "f10" }] },
-                        { "from": { "key_code": "f11" }, "to": [{ "key_code": "f11" }] },
-                        { "from": { "key_code": "f12" }, "to": [{ "key_code": "f12" }] }
-                    ]
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": true,
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "product_id": 2,
-                        "vendor_id": 14477
-                    },
-                    "fn_function_keys": [
-                        { "from": { "key_code": "f1" },  "to": [{ "key_code": "f1" }] },
-                        { "from": { "key_code": "f2" },  "to": [{ "key_code": "f2" }] },
-                        { "from": { "key_code": "f3" },  "to": [{ "key_code": "f3" }] },
-                        { "from": { "key_code": "f4" },  "to": [{ "key_code": "f4" }] },
-                        { "from": { "key_code": "f5" },  "to": [{ "key_code": "f5" }] },
-                        { "from": { "key_code": "f6" },  "to": [{ "key_code": "f6" }] },
-                        { "from": { "key_code": "f7" },  "to": [{ "key_code": "f7" }] },
-                        { "from": { "key_code": "f8" },  "to": [{ "key_code": "f8" }] },
-                        { "from": { "key_code": "f9" },  "to": [{ "key_code": "f9" }] },
-                        { "from": { "key_code": "f10" }, "to": [{ "key_code": "f10" }] },
-                        { "from": { "key_code": "f11" }, "to": [{ "key_code": "f11" }] },
-                        { "from": { "key_code": "f12" }, "to": [{ "key_code": "f12" }] }
-                    ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "product_id": 50475,
-                        "vendor_id": 1133
-                    },
-                    "ignore": true
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": true,
-                    "identifiers": {
-                        "device_address": "c0-07-43-99-fe-5a",
-                        "is_keyboard": true,
-                        "is_pointing_device": true
-                    },
-                    "ignore": false
                 }
-            ],
-            "name": "Default profile",
-            "selected": true,
-            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
-        }
-    ]
+            ]
+        },
+        "devices": [
+            {
+                "identifiers": { "is_keyboard": true },
+                "ignore": true
+            },
+            {
+                "identifiers": {
+                    "is_keyboard": true,
+                    "product_id": 50475,
+                    "vendor_id": 1133
+                },
+                "ignore": true
+            },
+            {
+                "disable_built_in_keyboard_if_exists": true,
+                "fn_function_keys": [
+                    {
+                        "from": { "key_code": "f12" },
+                        "to": [{ "key_code": "f12" }]
+                    }
+                ],
+                "identifiers": {
+                    "is_keyboard": true,
+                    "is_pointing_device": true,
+                    "product_id": 2,
+                    "vendor_id": 14477
+                },
+                "ignore": false,
+                "manipulate_caps_lock_led": false
+            },
+            {
+                "identifiers": {
+                    "is_keyboard": true,
+                    "product_id": 2,
+                    "vendor_id": 14477
+                },
+                "ignore": true
+            },
+            {
+                "identifiers": {
+                    "device_address": "c0-07-43-99-fe-5a",
+                    "is_keyboard": true,
+                    "is_pointing_device": true
+                },
+                "ignore": false
+            }
+        ],
+        "name": "Default profile",
+        "selected": true,
+        "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+    }
+]
 }
